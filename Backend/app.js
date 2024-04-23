@@ -19,15 +19,6 @@ const userRoutes=require('./routes/userRoutes');
 
 const PORT=process.env.PORT ||8080;
 
-// const seedDB = require('./seed');
-
-
-
-
-// function to add song in db
-
-// seedDB();  //run one time only otherwise it will run on every refresh and data will added gain and again in DB
-
 
 app.use(songRoutes,userRoutes);
 

@@ -16,15 +16,28 @@ const userSchema=new mongoose.Schema({
             trim:true,
       },
       recentlyPlayed:[
-           {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Playlist'
-           }
+            {
+                  songId: {
+                      type: mongoose.Schema.Types.ObjectId,
+                      ref: 'Song'
+                  },
+                  playedAt: {
+                      type: Date,
+                      default: Date.now
+                  }
+              }
       ],
       mostPlayed:[
             {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Playlist'
+                  songId:{
+                        type:mongoose.Schema.Types.ObjectId,
+                        ref:'Song'
+                  },
+                  playCount:{
+                        type:Number,
+                        default:0
+                  }
+
             }
       ]
 

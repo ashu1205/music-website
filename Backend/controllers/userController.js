@@ -7,7 +7,7 @@ require('dotenv').config()
 async function signup(req,res){
     try {
         const {name,email,password}=req.body;
-        console.log(name,email,password);
+        // console.log(name,email,password);
         if(email&&password){
             let existingUser=await User.findOne({email:email})
 
@@ -68,7 +68,7 @@ async function signin(req,res){
         
         const payload={
             email:user.email,
-            userid:user._id,
+            userId:user._id,
         }
         
         // compare password
