@@ -68,7 +68,7 @@ async function signin(req,res){
         
         const payload={
             email:user.email,
-            userId:user._id,
+            userid:user._id,
         }
         
         // compare password

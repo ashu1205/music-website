@@ -24,11 +24,11 @@ async function getSongByCategory(req,res){
 }
 async function playSong(req,res){
     try {
-        const userId=req.user.userId;
-        const songId=req.params.songId;
+        const userid=req.user.userid;
+        const songid=req.params.songid;
 
-        addRecentlyPlayed(userId,songId)
-        addMostPlayed(userId,songId)
+        addRecentlyPlayed(userid,songid)
+        addMostPlayed(userid,songid)
         return res.status(200).json({
             message:"user playlist updated"
         })
@@ -39,9 +39,9 @@ async function playSong(req,res){
         })
     }
 }
-async function addRecentlyPlayed(userId,songId){
+async function addRecentlyPlayed(userid,songid){
     try {
-        const user=await User.findById({_id:userId})
+        const user=await User.findById({_id:userid})
 
         const newEntry = {
             songId: songId,
@@ -64,16 +64,16 @@ async function addRecentlyPlayed(userId,songId){
         console.log(error.message);
     }
 }
-async function addMostPlayed(userId, songId) {
+async function addMostPlayed(userid, songid) {
     try {
-        const user = await User.findById(userId);
-        const existingEntryIndex = user.mostPlayed.findIndex(entry => entry.songId.equals(songId));
+        const user = await User.findById(userid);
+        const existingEntryIndex = user.mostPlayed.findIndex(entry => entry.songid.equals(songid));
 
         if (existingEntryIndex !== -1) {
             user.mostPlayed[existingEntryIndex].playCount++;
         } else {
             user.mostPlayed.push({
-                songId: songId,
+                songid: songid,
                 playCount: 1
             });
         }
@@ -87,8 +87,8 @@ async function addMostPlayed(userId, songId) {
 }
 async function getMostPlayed(req, res) {
     try {
-        const userId = req.user.userId;
-        const user = await User.findById(userId).populate('mostPlayed.songId');;
+        const userid = req.user.userid;
+        const user = await User.findById(userid).populate('mostPlayed.songId');;
         const mostPlayed = user.mostPlayed.sort((a, b) => b.playCount - a.playCount);
         res.json({ data: mostPlayed });
     } catch (error) {
@@ -100,7 +100,7 @@ async function getMostPlayed(req, res) {
 
 async function getRecentlyPlayed(req,res){
     try {
-        const userid=req.user.userId;
+        const userid=req.user.userid;
 
         // console.log("entered");
         const playlist = await User.findById(userid).select('recentlyPlayed')
@@ -119,8 +119,8 @@ async function getRecentlyPlayed(req,res){
 }
 async function addToFavourites(req,res){
     try {
-        const userid=req.user.userId;
-        const songid=req.params.songId;
+        const userid=req.user.userid;
+        const songid=req.params.songid;
         const user=await User.findById(userid);
 
         user.favourites.push(songid)
@@ -139,7 +139,7 @@ async function addToFavourites(req,res){
 
 async function getFavourites(req,res){
     try {
-        const userid=req.user.userId;
+        const userid=req.user.userid;
         
         const favorites=await User.findById(userid).select('favourites').populate('favourites');
 

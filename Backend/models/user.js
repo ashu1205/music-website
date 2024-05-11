@@ -17,7 +17,7 @@ const userSchema=new mongoose.Schema({
       },
       recentlyPlayed:[
             {
-                  songId: {
+                  songid: {
                       type: mongoose.Schema.Types.ObjectId,
                       ref: 'Song'
                   },
@@ -29,7 +29,7 @@ const userSchema=new mongoose.Schema({
       ],
       mostPlayed:[
             {
-                  songId:{
+                  songid:{
                         type:mongoose.Schema.Types.ObjectId,
                         ref:'Song'
                   },

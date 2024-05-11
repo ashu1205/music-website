@@ -12,11 +12,11 @@ const upload1 = multer({ storage: storage });
 
 
 //mapping api's
-router.post('/userPlay/:songId',auth,playSong)
+router.post('/userPlay/:songid',auth,playSong)
 router.get('/getRecentlyPlayed',auth,getRecentlyPlayed)
 router.get('/getMostPlayed',auth,getMostPlayed)
 router.get('/getFavourites',auth,getFavourites)
-router.post('/addToFavourites/:songId',auth,addToFavourites)
+router.post('/addToFavourites/:songid',auth,addToFavourites)
 router.get('/upload',(req,res)=>{
     res.sendFile(path.join(__dirname, '../../public/upload.html'))
 });
