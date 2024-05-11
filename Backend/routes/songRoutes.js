@@ -1,10 +1,9 @@
 const express=require('express');
 const router=express.Router();
-const song=require('../models/song');
 const path=require('path')
 const auth =require('../middlewares/auth')
 //import controllers
-const {getSongByCategory,getAllSongs,playSong,getRecentlyPlayed,getMostPlayed}=require('../controllers/songController')
+const {getSongByCategory,getAllSongs,playSong,getRecentlyPlayed,getMostPlayed,getFavourites, addToFavourites}=require('../controllers/songController')
 const upload=require('../controllers/uploadSong')
 
 const multer  = require('multer');
@@ -16,6 +15,8 @@ const upload1 = multer({ storage: storage });
 router.post('/userPlay/:songId',auth,playSong)
 router.get('/getRecentlyPlayed',auth,getRecentlyPlayed)
 router.get('/getMostPlayed',auth,getMostPlayed)
+router.get('/getFavourites',auth,getFavourites)
+router.post('/addToFavourites/:songId',auth,addToFavourites)
 router.get('/upload',(req,res)=>{
     res.sendFile(path.join(__dirname, '../../public/upload.html'))
 });

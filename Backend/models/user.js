@@ -39,6 +39,12 @@ const userSchema=new mongoose.Schema({
                   }
 
             }
+      ],
+      favourites:[
+            {
+                  type:mongoose.Schema.Types.ObjectId,
+                  ref:'Song'
+            }
       ]
 
 });

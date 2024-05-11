@@ -49,7 +49,7 @@ async function addRecentlyPlayed(userId,songId){
         };
 
         
-        user.recentlyPlayed.unshift(newEntry);
+        user.recentlyPlayed.shift(newEntry);
         
 
         if(user.recentlyPlayed.length >MAX_COUNT){
@@ -103,7 +103,7 @@ async function getRecentlyPlayed(req,res){
         const userid=req.user.userId;
 
         // console.log("entered");
-        const playlist = await User.findById(userid)
+        const playlist = await User.findById(userid).select('recentlyPlayed')
         .populate('recentlyPlayed.songId')
         .sort({ 'recentlyPlayed.playedAt': -1 });
         
@@ -112,7 +112,47 @@ async function getRecentlyPlayed(req,res){
             data:playlist
         })
     } catch (error) {
-        
+        res.status(500).json({
+            error:error.message
+        })
     }
 }
-module.exports={getAllSongs,getSongByCategory,playSong,getRecentlyPlayed,getMostPlayed}
+async function addToFavourites(req,res){
+    try {
+        const userid=req.user.userId;
+        const songid=req.params.songId;
+        const user=await User.findById(userid);
+
+        user.favourites.push(songid)
+        await user.save()
+
+        res.status(400).json({
+            success:true,
+            message:"added to favourites"
+        })
+    } catch (error) {
+        res.status(500).json({
+            error:error.message
+        })
+    }
+}
+
+async function getFavourites(req,res){
+    try {
+        const userid=req.user.userId;
+        
+        const favorites=await User.findById(userid).select('favourites').populate('favourites');
+
+        res.status(400).json({
+            success:true,
+            message:"favourites fetched successfully",
+            data:favorites
+        })
+    } catch (error) {
+        res.status(500).json({
+            error:error.message
+        })
+    }
+}
+
+module.exports={getAllSongs,getSongByCategory,playSong,getRecentlyPlayed,getMostPlayed,addToFavourites,getFavourites}
