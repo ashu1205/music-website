@@ -2,7 +2,7 @@ const jwt=require('jsonwebtoken')
 require('dotenv').config()
 async function auth(req,res,next){
     try {
-        // console.log(req.cookies.token);
+        console.log(req.cookies);
         const token =req.cookies.token;
         
         if(token){
@@ -10,11 +10,11 @@ async function auth(req,res,next){
             let payload=jwt.verify(token,process.env.JWT_SECRETKEY)
 
            req.user=payload;
-        //    console.log(req.user);
+           console.log(req.user);
            next()
            
            } catch (error) {
-            console.error("JWT verification failed:", error);
+            console.log("JWT verification failed:", error);
             return res.redirect('/login');
            }
         }

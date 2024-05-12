@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname+'public')))
 const songRoutes=require('./routes/songRoutes');
 const userRoutes=require('./routes/userRoutes');
 
-const PORT=process.env.PORT ||8080;
+const PORT=process.env.PORT || 8080;
 
 
 app.use(songRoutes,userRoutes);

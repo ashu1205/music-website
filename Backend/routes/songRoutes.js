@@ -17,15 +17,17 @@ router.get('/getRecentlyPlayed',auth,getRecentlyPlayed)
 router.get('/getMostPlayed',auth,getMostPlayed)
 router.get('/getFavourites',auth,getFavourites)
 router.post('/addToFavourites/:songid',auth,addToFavourites)
+
+
+router.get('/home',getAllSongs)
+router.get('/home/playlist/:category',getSongByCategory)
+
+
 router.get('/upload',(req,res)=>{
     res.sendFile(path.join(__dirname, '../../public/upload.html'))
 });
 // router.post('/upload', upload1.single('song'),upload)
 router.post('/upload', upload1.fields([{ name: 'song'}, { name: 'image'}]), upload);
-
-router.get('/home',getAllSongs)
-
-router.get('/home/playlist/:category',getSongByCategory)
 
 // router.post('/home/search',(req,res)=>{
 

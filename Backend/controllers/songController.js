@@ -1,4 +1,3 @@
-const mongoose=require('mongoose')
 const Song=require('../models/song')
 const User=require('../models/user')
 const MAX_COUNT=20
@@ -29,6 +28,7 @@ async function playSong(req,res){
 
         addRecentlyPlayed(userid,songid)
         addMostPlayed(userid,songid)
+
         return res.status(200).json({
             message:"user playlist updated"
         })
@@ -91,6 +91,7 @@ async function getMostPlayed(req, res) {
         const user = await User.findById(userid).populate('mostPlayed.songId');;
         const mostPlayed = user.mostPlayed.sort((a, b) => b.playCount - a.playCount);
         res.json({ data: mostPlayed });
+
     } catch (error) {
         console.error('Error fetching most played songs:', error);
         res.status(500).json({ message: 'Internal server error' });
@@ -155,4 +156,24 @@ async function getFavourites(req,res){
     }
 }
 
-module.exports={getAllSongs,getSongByCategory,playSong,getRecentlyPlayed,getMostPlayed,addToFavourites,getFavourites}
+async function search(req,res){
+    try {
+        const query = req.query.q; 
+
+        const songs = await Song.find({
+            $or: [
+                { title: { $regex: new RegExp(query, 'i') } },
+                { artist: { $regex: new RegExp(query, 'i') }},
+                { genre:{ $regex: new RegExp(query, 'i') }}
+            ]
+        });
+        res.json(songs); 
+    } catch (error) {
+        console.error('error in searching :', error);
+        res.status(500).json({
+            error:error.message
+        });
+    }
+}
+
+module.exports={getAllSongs,getSongByCategory,playSong,getRecentlyPlayed,getMostPlayed,addToFavourites,getFavourites,search}
