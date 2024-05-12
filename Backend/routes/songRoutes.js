@@ -3,7 +3,7 @@ const router=express.Router();
 const path=require('path')
 const auth =require('../middlewares/auth')
 //import controllers
-const {getSongByCategory,getAllSongs,playSong,getRecentlyPlayed,getMostPlayed,getFavourites, addToFavourites}=require('../controllers/songController')
+const {getSongByCategory,getAllSongs,playSong,getRecentlyPlayed,getMostPlayed,getFavourites, addToFavourites,search}=require('../controllers/songController')
 const upload=require('../controllers/uploadSong')
 
 const multer  = require('multer');
@@ -17,7 +17,7 @@ router.get('/getRecentlyPlayed',auth,getRecentlyPlayed)
 router.get('/getMostPlayed',auth,getMostPlayed)
 router.get('/getFavourites',auth,getFavourites)
 router.post('/addToFavourites/:songid',auth,addToFavourites)
-
+router.get('/search',search)
 
 router.get('/home',getAllSongs)
 router.get('/home/playlist/:category',getSongByCategory)
